@@ -16,5 +16,6 @@ local.properties
 .understand-anything/
 .superpowers/
 docs/superpowers/
-screenshot.png
+/campusai-*.png
+/screenshot.png
 .playwright-mcp/
