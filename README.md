@@ -78,9 +78,9 @@ app/src/main/java/com/example/finalwork/
 
 GSAP 动画驱动的项目展示页面，滚动浏览全部功能：
 
-👉 **[项目介绍页](https://kobe-tech-space.github.io/Android-Final-Work/docs/intro.html)**
+👉 **[项目介绍页](https://kobe-tech-space.github.io/Android-Final-Work/docs/index.html)**
 
-> 本地查看：`docs/intro.html`，浏览器直接打开即可。
+> 本地查看：`docs/index.html`，浏览器直接打开即可。
 
 ## 🎨 设计
 
