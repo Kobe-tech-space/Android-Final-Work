@@ -74,6 +74,14 @@ app/src/main/java/com/example/finalwork/
 └── utils/         # SessionManager / ThemeManager / NotificationHelper
 ```
 
+## 🌐 项目介绍页
+
+GSAP 动画驱动的项目展示页面，滚动浏览全部功能：
+
+👉 **[项目介绍页](https://kobe-tech-space.github.io/Android-Final-Work/docs/intro.html)**
+
+> 本地查看：`docs/intro.html`，浏览器直接打开即可。
+
 ## 🎨 设计
 
 暖橙配色（`#E76F51`）+ 奶油白背景（`#FFF9F0`）+ 大圆角卡片。

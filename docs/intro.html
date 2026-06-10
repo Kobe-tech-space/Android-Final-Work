@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusAI — 智慧校园学习助手</title>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --primary:#E76F51;--primary-dark:#D45D3A;--primary-light:#F4A261;
+    --bg:#FFF9F0;--card:#FFFFFF;--text:#3D3028;--text-sub:#6B5A4B;
+    --text-hint:#B08B70;--border:#F0E0D0;--green:#5B8C5A;--blue:#4A6FA5;--purple:#6B4A8C;
+  }
+  html{scroll-behavior:auto}
+  body{
+    font-family:'Segoe UI','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+    background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.7;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    height:100vh;min-height:750px;display:flex;align-items:center;justify-content:center;
+    position:relative;background:linear-gradient(160deg,var(--primary-light) 0%,var(--primary) 40%,var(--primary-dark) 100%);
+    overflow:hidden;perspective:1000px;
+  }
+  .hero-bg-layer{position:absolute;inset:0;pointer-events:none}
+  .hero-particle{position:absolute;opacity:0;will-change:transform}
+  .hero-float{position:absolute;opacity:0;pointer-events:none}
+  .hero-glow{
+    position:absolute;width:600px;height:600px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%);
+    top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;opacity:0;
+  }
+  .hero-content{text-align:center;z-index:2;padding:2rem;position:relative}
+  .hero-badge{
+    display:inline-block;background:rgba(255,255,255,0.2);color:#FFF;
+    padding:0.4rem 1.4rem;border-radius:30px;font-size:0.9rem;font-weight:600;
+    backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.25);
+    opacity:0;will-change:transform,opacity;
+  }
+  .hero-icon{font-size:6rem;display:block;opacity:0;will-change:transform,opacity}
+  .hero-title{
+    font-size:clamp(3.5rem,10vw,7rem);font-weight:900;color:#FFF;
+    letter-spacing:-0.04em;margin:0.3em 0;line-height:1;opacity:0;
+    will-change:transform,opacity;text-shadow:0 4px 40px rgba(0,0,0,0.15);
+  }
+  .hero-subtitle{
+    font-size:clamp(1.2rem,3vw,1.8rem);color:#FFF5E0;font-weight:300;
+    opacity:0;will-change:transform,opacity;letter-spacing:0.05em;
+  }
+  .hero-line{width:60px;height:3px;background:#FFF8;border-radius:2px;margin:1.2rem auto;opacity:0}
+  .hero-features-row{
+    display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:1.8rem;
+  }
+  .hero-feat-pill{
+    background:rgba(255,255,255,0.18);color:#FFF;padding:0.5rem 1.4rem;
+    border-radius:25px;font-size:0.9rem;backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.2);opacity:0;will-change:transform,opacity;
+  }
+  .scroll-indicator{
+    position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:3;opacity:0;
+  }
+  .scroll-mouse{width:26px;height:42px;border:2px solid rgba(255,255,255,0.7);border-radius:14px;margin:0 auto 8px}
+  .scroll-mouse::after{
+    content:'';display:block;width:5px;height:5px;background:#FFF;border-radius:50%;
+    margin:8px auto 0;animation:mouse-wheel 1.6s ease infinite
+  }
+  @keyframes mouse-wheel{
+    0%{opacity:1;transform:translateY(0)}50%{opacity:0.5;transform:translateY(8px)}
+    100%{opacity:1;transform:translateY(0)}
+  }
+  .scroll-text{color:rgba(255,255,255,0.7);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase}
+
+  /* ===== SECTIONS ===== */
+  .section{padding:7rem 2rem;position:relative}
+  .section-label{
+    text-align:center;font-size:0.85rem;font-weight:700;text-transform:uppercase;
+    letter-spacing:0.2em;color:var(--primary);margin-bottom:0.6rem;opacity:0;
+  }
+  .section-title{
+    text-align:center;font-size:clamp(2rem,5vw,3.2rem);font-weight:900;
+    color:var(--text);margin-bottom:1rem;opacity:0;
+  }
+  .section-title em{color:var(--primary);font-style:normal}
+  .section-desc{text-align:center;max-width:600px;margin:0 auto 3.5rem;color:var(--text-sub);font-size:1.05rem;opacity:0}
+
+  /* ===== FEATURES ===== */
+  .features-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:1.8rem;max-width:1150px;margin:0 auto;
+  }
+  .feature-card{
+    background:var(--card);border-radius:24px;padding:2.2rem 2rem;
+    box-shadow:0 2px 20px rgba(180,120,60,0.07);border:1.5px solid var(--border);
+    opacity:0;will-change:transform,opacity;
+    transition:box-shadow 0.4s,transform 0.4s;position:relative;overflow:hidden;
+  }
+  .feature-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;
+    background:linear-gradient(90deg,var(--primary-light),var(--primary),var(--primary-dark));
+    transform:scaleX(0);transform-origin:left;transition:transform 0.5s ease;
+  }
+  .feature-card:hover::before{transform:scaleX(1)}
+  .feature-card:hover{box-shadow:0 12px 40px rgba(200,100,50,0.14);transform:translateY(-6px)}
+  .feature-icon{font-size:3.2rem;margin-bottom:1rem;display:block}
+  .feature-name{font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:0.4rem}
+  .feature-desc{color:var(--text-sub);font-size:0.95rem;line-height:1.8}
+  .feature-tag{
+    display:inline-block;background:var(--bg);color:var(--primary);font-size:0.75rem;
+    font-weight:700;padding:0.25rem 0.8rem;border-radius:12px;margin-top:0.8rem
+  }
+
+  /* ===== ARCHITECTURE ===== */
+  .arch-section{background:var(--card)}
+  .arch-layers{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:0.8rem}
+  .arch-layer{
+    display:flex;align-items:center;gap:1.2rem;padding:1.2rem 1.5rem;
+    background:var(--bg);border-radius:16px;border:1.5px solid var(--border);
+    opacity:0;will-change:transform,opacity;
+  }
+  .arch-layer-icon{
+    width:48px;height:48px;border-radius:14px;display:flex;align-items:center;
+    justify-content:center;font-size:1.3rem;font-weight:800;color:#FFF;flex-shrink:0;
+  }
+  .arch-layer:nth-child(1) .arch-layer-icon{background:var(--primary)}
+  .arch-layer:nth-child(2) .arch-layer-icon{background:var(--primary-light)}
+  .arch-layer:nth-child(3) .arch-layer-icon{background:var(--blue)}
+  .arch-layer:nth-child(4) .arch-layer-icon{background:var(--green)}
+  .arch-layer:nth-child(5) .arch-layer-icon{background:var(--purple)}
+  .arch-layer:nth-child(6) .arch-layer-icon{background:var(--primary-dark)}
+  .arch-layer:nth-child(7) .arch-layer-icon{background:var(--blue)}
+  .arch-layer:nth-child(8) .arch-layer-icon{background:var(--green)}
+  .arch-layer-name{font-weight:800;font-size:1.05rem;color:var(--text)}
+  .arch-layer-desc{font-size:0.85rem;color:var(--text-hint)}
+  .arch-layer-count{font-weight:900;color:var(--primary);font-size:1.3rem;margin-left:auto}
+
+  /* ===== TECH (horizontal scroll) ===== */
+  .tech-pin{height:100vh;overflow:hidden;position:relative}
+  .tech-pin-bg{position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,#FDF5EB 100%)}
+  .tech-pin-inner{position:relative;height:100%;display:flex;align-items:center}
+  .tech-track{display:flex;gap:2rem;padding:0 50vw 0 10vw;will-change:transform}
+  .tech-card{
+    flex:0 0 260px;background:var(--card);border-radius:22px;
+    padding:2rem 1.8rem;text-align:center;border:1.5px solid var(--border);
+    box-shadow:0 4px 20px rgba(180,120,60,0.07);
+  }
+  .tech-card .tech-icon{font-size:3rem;display:block;margin-bottom:1rem}
+  .tech-card .tech-name{font-weight:800;font-size:1.2rem;color:var(--text)}
+  .tech-card .tech-desc{font-size:0.85rem;color:var(--text-hint);margin-top:0.4rem;line-height:1.6}
+  .tech-card .tech-detail{font-size:0.78rem;color:var(--text-hint);margin-top:0.6rem;line-height:1.5}
+
+  /* ===== TIMELINE ===== */
+  .timeline{max-width:700px;margin:0 auto;position:relative;padding-left:3rem}
+  .timeline::before{content:'';position:absolute;left:1.1rem;top:0;bottom:0;width:2px;background:var(--border)}
+  .timeline-item{position:relative;padding-bottom:2.5rem;opacity:0;will-change:transform,opacity}
+  .timeline-dot{
+    position:absolute;left:-3rem;top:0.3rem;width:2.2rem;height:2.2rem;
+    border-radius:50%;background:var(--primary);display:flex;align-items:center;
+    justify-content:center;color:#FFF;font-size:0.85rem;font-weight:800;z-index:1
+  }
+  .timeline-item:nth-child(2) .timeline-dot{background:var(--primary-light)}
+  .timeline-item:nth-child(3) .timeline-dot{background:var(--blue)}
+  .timeline-item:nth-child(4) .timeline-dot{background:var(--green)}
+  .timeline-item:nth-child(5) .timeline-dot{background:var(--purple)}
+  .timeline-title{font-weight:800;font-size:1.15rem;color:var(--text)}
+  .timeline-desc{color:var(--text-sub);font-size:0.9rem;margin-top:0.2rem}
+
+  /* ===== STATS ===== */
+  .stats-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:1.5rem;max-width:950px;margin:0 auto;
+  }
+  .stat-card{
+    background:var(--card);border-radius:20px;padding:2.2rem 1.5rem;text-align:center;
+    border:1.5px solid var(--border);box-shadow:0 2px 16px rgba(180,120,60,0.05);
+    opacity:0;will-change:transform,opacity;position:relative;overflow:hidden;
+  }
+  .stat-card::after{
+    content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;
+    background:linear-gradient(90deg,transparent,var(--primary),transparent);
+    transform:scaleX(0);transition:transform 2s ease;
+  }
+  .stat-card.visible::after{transform:scaleX(1)}
+  .stat-number{font-size:3.2rem;font-weight:900;color:var(--primary);line-height:1.1}
+  .stat-label{color:var(--text-hint);font-size:0.9rem;margin-top:0.3rem}
+  .stat-sub{font-size:0.75rem;color:var(--text-hint);opacity:0.6;margin-top:0.2rem}
+
+  /* ===== CTA ===== */
+  .cta{
+    height:100vh;min-height:650px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,var(--primary-light) 0%,var(--primary) 30%,var(--primary-dark) 100%);
+    position:relative;overflow:hidden
+  }
+  .cta-particle{position:absolute;opacity:0;pointer-events:none}
+  .cta-content{text-align:center;z-index:2;padding:2rem}
+  .cta-emoji{font-size:5rem;display:block;opacity:0}
+  .cta-title{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:#FFF;margin:0.8rem 0;opacity:0}
+  .cta-text{font-size:1.1rem;color:#FFF5E0;opacity:0;margin-bottom:2rem;line-height:1.8;max-width:500px;margin-left:auto;margin-right:auto}
+  .cta-tags{display:flex;flex-wrap:wrap;gap:0.8rem;justify-content:center;opacity:0}
+  .cta-tag{background:rgba(255,255,255,0.15);color:#FFF;padding:0.45rem 1.3rem;border-radius:22px;font-size:0.88rem;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.2)}
+
+  @media(max-width:640px){
+    .section{padding:4rem 1rem}.hero{min-height:100dvh}.cta{min-height:100dvh}
+    .arch-layer{padding:1rem}.tech-card{flex:0 0 220px}.stat-number{font-size:2.4rem}
+    .features-grid{grid-template-columns:1fr}.timeline{padding-left:2.5rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SECTION 1: HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero-glow" id="heroGlow"></div>
+  <div class="hero-bg-layer" id="heroParticles"></div>
+
+  <div class="hero-content">
+    <span class="hero-badge" id="heroBadge">🎓 大三期末作业 · Android 开发技术</span>
+    <span class="hero-icon" id="heroIcon">📚</span>
+    <h1 class="hero-title" id="heroTitle">CampusAI</h1>
+    <div class="hero-line" id="heroLine"></div>
+    <p class="hero-subtitle" id="heroSub">智慧校园学习助手</p>
+    <div class="hero-features-row" id="heroFeatRow">
+      <span class="hero-feat-pill">📚 课程表</span>
+      <span class="hero-feat-pill">✅ 待办管理</span>
+      <span class="hero-feat-pill">📝 考试提醒</span>
+      <span class="hero-feat-pill">🤖 AI 对话</span>
+      <span class="hero-feat-pill">🌙 暗色模式</span>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" id="scrollIndicator">
+    <div class="scroll-mouse"></div>
+    <p class="scroll-text">Scroll</p>
+  </div>
+</section>
+
+<!-- ============ SECTION 2: WHY ============ -->
+<section class="section">
+  <p class="section-label" data-reveal>项目背景</p>
+  <h2 class="section-title" data-reveal>为什么选择做这款<em>App</em></h2>
+  <p class="section-desc" data-reveal>
+    大学生的学习生活被课程、作业、考试填满，信息散落在各个平台。
+    CampusAI 希望用一个 App 统一管理校园日程，并提供 AI 学习助手，
+    让每一个学生都能更从容地面对学业挑战。
+  </p>
+  <div class="timeline" id="timeline">
+    <div class="timeline-item" data-timeline>
+      <div class="timeline-dot">1</div>
+      <p class="timeline-title">需求分析</p>
+      <p class="timeline-desc">调研大学生日常痛点：课程表管理、作业截止日追踪、考试时间记忆、AI 学习辅助</p>
+    </div>
+    <div class="timeline-item" data-timeline>
+      <div class="timeline-dot">2</div>
+      <p class="timeline-title">技术选型</p>
+      <p class="timeline-desc">Android 原生 + Room 数据库 + Retrofit 网络请求 + DeepSeek AI API + Material Design 3</p>
+    </div>
+    <div class="timeline-item" data-timeline>
+      <div class="timeline-dot">3</div>
+      <p class="timeline-title">架构设计</p>
+      <p class="timeline-desc">单 Activity 多 Fragment 架构，8 层分层设计（表现层 → 适配器层 → 模型层 → 数据层 → API 层 → 工具层 → 配置层 → 布局层）</p>
+    </div>
+    <div class="timeline-item" data-timeline>
+      <div class="timeline-dot">4</div>
+      <p class="timeline-title">迭代开发</p>
+      <p class="timeline-desc">从登录注册 → 课程/待办 CRUD → 考试管理 → AI 流式对话 → 用户隔离 → 暗色模式 → 前端重设计</p>
+    </div>
+    <div class="timeline-item" data-timeline>
+      <div class="timeline-dot">5</div>
+      <p class="timeline-title">交付展示</p>
+      <p class="timeline-desc">48 个源文件、6 张 Room 数据库表、15 个 XML 布局、30+ 个前端优化点</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 3: FEATURES ============ -->
+<section class="section" id="featuresSection">
+  <p class="section-label" data-reveal>核心功能</p>
+  <h2 class="section-title" data-reveal>六大<em>核心模块</em>，一站式校园管理</h2>
+  <p class="section-desc" data-reveal>每个模块都经过精心设计，从视觉风格到交互细节，力求温暖、流畅、不像 AI 模板</p>
+
+  <div class="features-grid">
+    <div class="feature-card" data-feature data-direction="left">
+      <span class="feature-icon">📚</span>
+      <h3 class="feature-name">智能课程表</h3>
+      <p class="feature-desc">按星期（周一至周日）筛选和展示课程。可视化节次安排（第1-12节），支持课程增删改查。同时间段冲突自动检测，防止重复排课。</p>
+      <span class="feature-tag">星期过滤 · 冲突检测</span>
+    </div>
+    <div class="feature-card" data-feature data-direction="right">
+      <span class="feature-icon">✅</span>
+      <h3 class="feature-name">待办事项管理</h3>
+      <p class="feature-desc">日历选择器快速设置截止日期。支持分类标签（作业/复习/考试/生活/社团）和优先级标记（高/中/低）。完成勾选自动添加删除线，今日待办置顶展示。</p>
+      <span class="feature-tag">日期选择 · 优先级分类</span>
+    </div>
+    <div class="feature-card" data-feature data-direction="left">
+      <span class="feature-icon">📝</span>
+      <h3 class="feature-name">考试倒计时</h3>
+      <p class="feature-desc">记录考试名称、地点和时间。自动计算剩余天数并实时倒计时。首页和考试列表双入口。系统通知准时提醒，支持编辑和删除。</p>
+      <span class="feature-tag">倒计时 · 通知提醒</span>
+    </div>
+    <div class="feature-card" data-feature data-direction="right">
+      <span class="feature-icon">🤖</span>
+      <h3 class="feature-name">AI 学习助手</h3>
+      <p class="feature-desc">接入 DeepSeek Chat API，SSE 流式逐字输出。自动管理多轮对话上下文，Markdown 格式渲染回复。支持会话管理（新建/切换/删除）。未配置 Key 时自动禁用并提示。</p>
+      <span class="feature-tag">SSE 流式 · 多轮记忆</span>
+    </div>
+    <div class="feature-card" data-feature data-direction="left">
+      <span class="feature-icon">🌙</span>
+      <h3 class="feature-name">暗色模式</h3>
+      <p class="feature-desc">深棕暖调暗色主题，一键切换。切换后当前页面状态自动保持（不跳回首页）。AppCompat DayNight 主题系统，全局颜色变量统一管理。</p>
+      <span class="feature-tag">暖调暗色 · 状态保持</span>
+    </div>
+    <div class="feature-card" data-feature data-direction="right">
+      <span class="feature-icon">🔑</span>
+      <h3 class="feature-name">用户数据隔离</h3>
+      <p class="feature-desc">每个用户账号独立配置 DeepSeek API Key。课程、待办、考试、AI 聊天记录按用户完全隔离。登录页和设置页双入口配置 API Key。</p>
+      <span class="feature-tag">按用户隔离 · 安全</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 4: ARCHITECTURE ============ -->
+<section class="section arch-section">
+  <p class="section-label" data-reveal>系统架构</p>
+  <h2 class="section-title" data-reveal>8 层<em>分层架构</em>设计</h2>
+  <p class="section-desc" data-reveal>从用户界面到底层数据，每一层职责清晰、边界明确</p>
+  <div class="arch-layers" id="archLayers">
+    <div class="arch-layer" data-layer>
+      <div class="arch-layer-icon">🎨</div>
+      <div><p class="arch-layer-name">表现层 Presentation</p><p class="arch-layer-desc">8 个 Activity + 5 个 Fragment</p></div>
+      <span class="arch-layer-count">13</span>
+    </div>
+    <div class="arch-layer" data-layer>
+      <div class="arch-layer-icon">🔌</div>
+      <div><p class="arch-layer-name">适配器层 Adapter</p><p class="arch-layer-desc">5 个 RecyclerView Adapter</p></div>
+      <span class="arch-layer-count">5</span>
+    </div>
+    <div class="arch-layer" data-layer>
+      <div class="arch-layer-icon">📦</div>
+      <div><p class="arch-layer-name">模型层 Model</p><p class="arch-layer-desc">6 个 Entity + 1 个 UI Model</p></div>
+      <span class="arch-layer-count">7</span>
+    </div>
+    <div class="arch-layer" data-layer>
+      <div class="arch-layer-icon">💾</div>
+      <div><p class="arch-layer-name">数据访问层 Data Access</p><p class="arch-layer-desc">6 个 Room DAO + Database 单例</p></div>
+      <span class="arch-layer-count">7</span>
+    </div>
+    <div class="arch-layer" data-layer>
+      <div class="arch-layer-icon">🌐</div>
+      <div><p class="arch-layer-name">API 层 Network</p><p class="arch-layer-desc">Retrofit + OkHttp + SSE 流式解析</p></div>
+      <span class="arch-layer-count">4</span>
+    </div>
+    <div class="arch-layer" data-layer>
+      <div class="arch-layer-icon">🔧</div>
+      <div><p class="arch-layer-name">工具层 Utility</p><p class="arch-layer-desc">Session / Theme / Notification</p></div>
+      <span class="arch-layer-count">3</span>
+    </div>
+    <div class="arch-layer" data-layer>
+      <div class="arch-layer-icon">⚙️</div>
+      <div><p class="arch-layer-name">配置层 Configuration</p><p class="arch-layer-desc">Gradle / Manifest / Colors / Themes</p></div>
+      <span class="arch-layer-count">6</span>
+    </div>
+    <div class="arch-layer" data-layer>
+      <div class="arch-layer-icon">🎭</div>
+      <div><p class="arch-layer-name">布局层 Layout</p><p class="arch-layer-desc">15 个 XML 布局 + 菜单资源</p></div>
+      <span class="arch-layer-count">15</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 5: TECH (horizontal scroll) ============ -->
+<div class="tech-pin" id="techPin">
+  <div class="tech-pin-bg"></div>
+  <div style="position:absolute;top:5rem;left:0;right:0;text-align:center;z-index:2;pointer-events:none">
+    <p style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--primary);margin-bottom:0.6rem">技术栈</p>
+    <h2 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:var(--text)">现代 Android <em style="color:var(--primary);font-style:normal">技术选型</em></h2>
+  </div>
+  <div class="tech-pin-inner">
+    <div class="tech-track" id="techTrack">
+      <div class="tech-card"><span class="tech-icon">☕</span><p class="tech-name">Java 8</p><p class="tech-desc">Android 原生开发语言</p><p class="tech-detail">Lambda 表达式、Stream API</p></div>
+      <div class="tech-card"><span class="tech-icon">🗄️</span><p class="tech-name">Room</p><p class="tech-desc">SQLite ORM 持久化框架</p><p class="tech-detail">6 张表、5 次 Migration、DCL 单例、用户隔离查询</p></div>
+      <div class="tech-card"><span class="tech-icon">🌐</span><p class="tech-name">Retrofit 2</p><p class="tech-desc">类型安全 HTTP 客户端</p><p class="tech-detail">@Streaming 注解、Gson 转换器、OkHttp 拦截器</p></div>
+      <div class="tech-card"><span class="tech-icon">🤖</span><p class="tech-name">DeepSeek API</p><p class="tech-desc">SSE 流式 AI 对话</p><p class="tech-detail">deepseek-chat 模型、多轮历史上下文、Bearer Token 认证</p></div>
+      <div class="tech-card"><span class="tech-icon">🎨</span><p class="tech-name">Material Design 3</p><p class="tech-desc">Material Components</p><p class="tech-detail">CardView、FAB、Switch、BottomNavigation、MaterialButton</p></div>
+      <div class="tech-card"><span class="tech-icon">📝</span><p class="tech-name">Markwon</p><p class="tech-desc">Markdown 渲染引擎</p><p class="tech-detail">AI 回复格式化展示、流式结束后统一渲染</p></div>
+      <div class="tech-card"><span class="tech-icon">🔔</span><p class="tech-name">Notification</p><p class="tech-desc">系统通知提醒</p><p class="tech-detail">NotificationChannel、NotificationCompat、考试倒计时通知</p></div>
+      <div class="tech-card"><span class="tech-icon">💾</span><p class="tech-name">SharedPreferences</p><p class="tech-desc">轻量键值存储</p><p class="tech-detail">登录状态、API Key 按用户隔离、暗色模式偏好</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 6: STATS ============ -->
+<section class="section" id="statsSection">
+  <p class="section-label" data-reveal>项目数据</p>
+  <h2 class="section-title" data-reveal>用数字<em>说话</em></h2>
+  <p class="section-desc" data-reveal>一个学期的学习和打磨，最终交付的成果</p>
+  <div class="stats-grid">
+    <div class="stat-card" data-stat><p class="stat-number" data-count="48">0</p><p class="stat-label">源文件</p><p class="stat-sub">Java + XML + Gradle</p></div>
+    <div class="stat-card" data-stat><p class="stat-number" data-count="8">0</p><p class="stat-label">架构层</p><p class="stat-sub">清晰分层设计</p></div>
+    <div class="stat-card" data-stat><p class="stat-number" data-count="6">0</p><p class="stat-label">Room DAO</p><p class="stat-sub">数据访问接口</p></div>
+    <div class="stat-card" data-stat><p class="stat-number" data-count="5">0</p><p class="stat-label">核心 Fragment</p><p class="stat-sub">首页 · 课程 · 待办 · AI · 个人</p></div>
+    <div class="stat-card" data-stat><p class="stat-number" data-count="36">0</p><p class="stat-label">知识图谱边</p><p class="stat-sub">imports · contains · configures · calls</p></div>
+    <div class="stat-card" data-stat><p class="stat-number" data-count="15">0</p><p class="stat-label">XML 布局</p><p class="stat-sub">精心手写布局</p></div>
+    <div class="stat-card" data-stat><p class="stat-number" data-count="49">0</p><p class="stat-label">知识图谱节点</p><p class="stat-sub">全项目结构化分析</p></div>
+    <div class="stat-card" data-stat><p class="stat-number" data-count="30">0</p><p class="stat-label">前端优化点</p><p class="stat-sub">视觉风格重设计</p></div>
+  </div>
+</section>
+
+<!-- ============ SECTION 7: CTA ============ -->
+<section class="cta" id="ctaSection">
+  <div id="ctaParticles"></div>
+  <div class="cta-content">
+    <span class="cta-emoji" id="ctaEmoji">🎓</span>
+    <h2 class="cta-title" id="ctaTitle">开启你的智慧校园生活</h2>
+    <p class="cta-text" id="ctaText">
+      CampusAI 不仅仅是一个期末作业，它是一个真正可以投入使用的校园效率工具。<br>
+      暖橙配色、流畅动画、AI 加持 — 用心做好每一个细节。
+    </p>
+    <div class="cta-tags" id="ctaTags">
+      <span class="cta-tag">📚 课程表 CRUD</span>
+      <span class="cta-tag">✅ 待办管理</span>
+      <span class="cta-tag">📝 考试倒计时</span>
+      <span class="cta-tag">🤖 DeepSeek AI</span>
+      <span class="cta-tag">🌙 暗色模式</span>
+      <span class="cta-tag">🔑 用户隔离</span>
+      <span class="cta-tag">📊 8 层架构</span>
+      <span class="cta-tag">🎨 暖橙设计</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== GSAP ==================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.defaults({ overwrite: 'auto' });
+
+/* ====== HERO PARTICLES ====== */
+const emojis = ['📚','✅','📝','🤖','🌙','🔑','✨','📖','💡','🎓','🔔','📅','⭐','💻','📊','🎯','🔬','📋','📌','🎪'];
+const particleContainer = document.getElementById('heroParticles');
+const particles = [];
+for (let i = 0; i < 40; i++) {
+  const el = document.createElement('span');
+  el.className = 'hero-particle';
+  el.textContent = emojis[i % emojis.length];
+  el.style.left = Math.random() * 100 + '%';
+  el.style.top = Math.random() * 100 + '%';
+  el.style.fontSize = (1.2 + Math.random() * 3) + 'rem';
+  el.style.opacity = '0';
+  particleContainer.appendChild(el);
+  particles.push(el);
+}
+
+/* ====== HERO TIMELINE ====== */
+const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+heroTl
+  // Badge drops in
+  .fromTo('#heroBadge', { y: -80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'back.out(1.7)' })
+  // Icon pops up
+  .fromTo('#heroIcon', { scale: 0, rotation: -30, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.9, ease: 'elastic.out(1, 0.4)' }, '-=0.3')
+  // Title slides up from below
+  .fromTo('#heroTitle', { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power4.out' }, '-=0.4')
+  // Line stretches
+  .fromTo('#heroLine', { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.3')
+  // Subtitle fades
+  .fromTo('#heroSub', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, '-=0.2')
+  // Glow appears
+  .to('#heroGlow', { opacity: 1, duration: 2, ease: 'power2.out' }, '-=1')
+  // Feature pills stagger in
+  .fromTo('.hero-feat-pill', { y: 30, opacity: 0, scale: 0.8 }, { y: 0, opacity: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: 'back.out(1.4)' }, '-=0.1')
+  // Particles come alive
+  .to(particles, { opacity: 0.5, duration: 1.5, stagger: { each: 0.03, from: 'random' }, ease: 'power2.out' }, '-=1')
+  // Scroll indicator
+  .to('#scrollIndicator', { opacity: 1, duration: 0.8 }, 2.5);
+
+/* ====== HERO PARALLAX ON MOUSE ====== */
+const hero = document.getElementById('hero');
+hero.addEventListener('mousemove', (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  gsap.to('#heroGlow', { x, y, duration: 1.5, ease: 'power2.out' });
+  gsap.to('#heroIcon', { x: x * 0.5, y: y * 0.5, duration: 1.5, ease: 'power2.out' });
+  gsap.to('#heroTitle', { x: x * 0.3, y: y * 0.3, duration: 1.5, ease: 'power2.out' });
+});
+
+/* ====== PARTICLE FLOATING ====== */
+particles.forEach((p, i) => {
+  gsap.to(p, {
+    y: () => (Math.random() - 0.5) * 120,
+    x: () => (Math.random() - 0.5) * 60,
+    rotation: () => (Math.random() - 0.5) * 40,
+    scale: () => 0.6 + Math.random() * 0.8,
+    duration: 4 + Math.random() * 5,
+    repeat: -1, yoyo: true, ease: 'sine.inOut',
+    delay: Math.random() * 2
+  });
+});
+
+/* ====== REVEAL ELEMENTS ====== */
+gsap.utils.toArray('[data-reveal]').forEach(el => {
+  gsap.fromTo(el,
+    { y: 40, opacity: 0 },
+    {
+      y: 0, opacity: 1, duration: 0.7, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', end: 'top 50%', toggleActions: 'play none none reverse' }
+    }
+  );
+});
+
+/* ====== TIMELINE ITEMS ====== */
+gsap.utils.toArray('[data-timeline]').forEach((item, i) => {
+  gsap.fromTo(item,
+    { x: -40, opacity: 0 },
+    {
+      x: 0, opacity: 1, duration: 0.6, ease: 'power2.out',
+      scrollTrigger: { trigger: '#timeline', start: 'top 75%', end: 'bottom 30%', toggleActions: 'play none none reverse' }
+    }
+  );
+});
+
+/* ====== FEATURE CARDS ====== */
+gsap.utils.toArray('[data-feature]').forEach((card) => {
+  const dir = card.dataset.direction === 'right' ? 100 : -100;
+  gsap.fromTo(card,
+    { x: dir, y: 50, opacity: 0, scale: 0.9, rotation: dir > 0 ? 4 : -4 },
+    {
+      x: 0, y: 0, opacity: 1, scale: 1, rotation: 0, duration: 0.8,
+      ease: 'back.out(1.3)',
+      scrollTrigger: { trigger: card, start: 'top 82%', end: 'top 40%', toggleActions: 'play none none reverse' }
+    }
+  );
+});
+
+/* ====== ARCHITECTURE LAYERS ====== */
+gsap.utils.toArray('[data-layer]').forEach((layer, i) => {
+  gsap.fromTo(layer,
+    { x: -60, opacity: 0 },
+    {
+      x: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
+      scrollTrigger: { trigger: '#archLayers', start: 'top 70%', end: 'bottom 30%', toggleActions: 'play none none reverse' }
+    }
+  );
+});
+
+/* ====== TECH HORIZONTAL SCROLL (pinned) ====== */
+const techTrack = document.getElementById('techTrack');
+const techCards = document.querySelectorAll('.tech-card');
+const techPin = document.getElementById('techPin');
+
+if (techCards.length && techPin) {
+  const scrollDist = techTrack.scrollWidth - window.innerWidth + 200;
+
+  const techScrollTween = gsap.to(techTrack, {
+    x: () => -Math.max(0, scrollDist),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: techPin,
+      start: 'top top',
+      end: () => '+=' + Math.max(500, scrollDist),
+      scrub: 1,
+      pin: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true
+    }
+  });
+
+  // Fade in each card as it enters the viewport during horizontal scroll
+  techCards.forEach((card, i) => {
+    gsap.fromTo(card,
+      { opacity: 0.3, scale: 0.9 },
+      {
+        opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out',
+        scrollTrigger: {
+          trigger: card,
+          containerAnimation: techScrollTween,
+          start: 'left 85%',
+          end: 'left 40%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    );
+  });
+}
+
+/* ====== STATS COUNTUP ====== */
+const statCards = document.querySelectorAll('[data-stat]');
+statCards.forEach(card => {
+  const numEl = card.querySelector('.stat-number');
+  const target = parseInt(numEl.dataset.count);
+
+  gsap.fromTo(card,
+    { y: 40, opacity: 0, scale: 0.9 },
+    {
+      y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.2)',
+      scrollTrigger: { trigger: card, start: 'top 85%', end: 'top 50%', toggleActions: 'play none none reverse' }
+    }
+  );
+
+  ScrollTrigger.create({
+    trigger: card,
+    start: 'top 90%',
+    onEnter: () => {
+      const obj = { val: 0 };
+      gsap.to(obj, {
+        val: target, duration: 2, ease: 'power3.out',
+        onUpdate: () => {
+          numEl.textContent = Math.round(obj.val);
+          // bounce effect
+          const scale = 1 + Math.abs(Math.sin(obj.val * 0.3)) * 0.05 * (1 - obj.val / target);
+          gsap.set(numEl, { scale });
+        },
+        onComplete: () => {
+          gsap.to(numEl, { scale: 1, duration: 0.3, ease: 'elastic.out(1, 0.3)' });
+          card.classList.add('visible');
+        }
+      });
+    },
+    once: true
+  });
+});
+
+/* ====== CTA PARTICLES ====== */
+const ctaParticlesEl = document.getElementById('ctaParticles');
+const ctaParticles = [];
+for (let i = 0; i < 25; i++) {
+  const el = document.createElement('span');
+  el.className = 'cta-particle';
+  el.textContent = emojis[i % emojis.length];
+  el.style.position = 'absolute';
+  el.style.left = Math.random() * 100 + '%';
+  el.style.top = -20 + 'px';
+  el.style.fontSize = (1 + Math.random() * 2.5) + 'rem';
+  el.style.opacity = '0';
+  ctaParticlesEl.appendChild(el);
+  ctaParticles.push(el);
+
+  // Falling animation
+  gsap.to(el, {
+    y: window.innerHeight + 60,
+    x: (Math.random() - 0.5) * 100,
+    rotation: (Math.random() - 0.5) * 180,
+    opacity: gsap.utils.interpolate(0, 0.3, Math.random()),
+    duration: 8 + Math.random() * 12,
+    repeat: -1,
+    delay: Math.random() * 10,
+    ease: 'none'
+  });
+}
+
+/* ====== CTA TIMELINE ====== */
+const ctaTl = gsap.timeline({
+  scrollTrigger: {
+    trigger: '#ctaSection',
+    start: 'top 70%',
+    end: 'top 15%',
+    toggleActions: 'play none none reverse'
+  }
+});
+ctaTl
+  .fromTo('#ctaEmoji', { scale: 0, rotation: -60, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.8, ease: 'elastic.out(1, 0.35)' })
+  .fromTo('#ctaTitle', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power4.out' }, '-=0.3')
+  .fromTo('#ctaText', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, '-=0.2')
+  .fromTo('.cta-tag', { y: 20, opacity: 0, scale: 0.8 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, stagger: { each: 0.06, from: 'center' }, ease: 'back.out(1.4)' }, '-=0.1');
+
+/* ====== ACCESSIBILITY ====== */
+const mm = gsap.matchMedia();
+mm.add({ reduceMotion: '(prefers-reduced-motion: reduce)' }, (ctx) => {
+  if (ctx.conditions.reduceMotion) {
+    gsap.globalTimeline.timeScale(3);
+    gsap.set('[data-feature],[data-layer],[data-stat],[data-timeline],[data-reveal],#ctaEmoji,#ctaTitle,#ctaText,#ctaTags', { opacity: 1, clearProps: 'transform' });
+  }
+});
+
+/* ====== REFRESH ON LOAD ====== */
+window.addEventListener('load', () => ScrollTrigger.refresh());
+</script>
+</body>
+</html>
