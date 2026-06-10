@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg" android:padding="20dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="118dp" android:background="@drawable/bg_campus_gradient" android:orientation="vertical" android:gravity="center_vertical" android:padding="22dp" android:layout_marginBottom="18dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="课程信息" android:textSize="27sp" android:textStyle="bold" android:textColor="@android:color/white" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="选择星期和节次，快速生成课程表" android:textColor="#FFF5E0" android:layout_marginTop="4dp" />
+        </LinearLayout>
+        <EditText android:id="@+id/etCourseName" android:layout_width="match_parent" android:layout_height="56dp" android:hint="课程名称" android:background="@drawable/bg_input_round" />
+        <EditText android:id="@+id/etTeacher" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="12dp" android:hint="教师" android:background="@drawable/bg_input_round" />
+        <EditText android:id="@+id/etClassroom" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="12dp" android:hint="教室" android:background="@drawable/bg_input_round" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="星期" android:textColor="@color/text_main" android:textStyle="bold" android:layout_marginTop="16dp" />
+        <Spinner android:id="@+id/spWeekday" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="6dp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="开始节次" android:textColor="@color/text_main" android:textStyle="bold" android:layout_marginTop="12dp" />
+        <Spinner android:id="@+id/spStartSection" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="6dp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="结束节次" android:textColor="@color/text_main" android:textStyle="bold" android:layout_marginTop="12dp" />
+        <Spinner android:id="@+id/spEndSection" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="6dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnSave" android:layout_width="match_parent" android:layout_height="56dp" android:text="保存课程" android:layout_marginTop="18dp" />
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@color/bg">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp" android:background="@drawable/bg_campus_gradient">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🤖 CampusAI 学习助手" android:textColor="@android:color/white" android:textSize="22sp" android:textStyle="bold" />
+        <TextView android:id="@+id/tvCurrentSession" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="当前会话" android:textColor="#FFF5E0" android:layout_marginTop="4dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="12dp">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnNewSession" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:text="＋ 新建" app:cornerRadius="12dp" app:backgroundTint="@color/card" android:textColor="@color/primary_dark" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:layout_marginStart="8dp" android:text="📋 历史" app:cornerRadius="12dp" app:backgroundTint="@color/card" android:textColor="@color/primary_dark" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnDeleteSession" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:layout_marginStart="8dp" android:text="🗑 当前" app:cornerRadius="12dp" app:backgroundTint="@color/card" android:textColor="@color/primary_dark" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:id="@+id/tvApiHint" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center" android:padding="32dp" android:textColor="@color/text_hint" android:textSize="15sp" android:visibility="gone" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerChat" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:padding="12dp" />
+    <LinearLayout android:id="@+id/inputArea" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="12dp" android:gravity="center_vertical" android:background="@color/card">
+        <EditText android:id="@+id/etMessage" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:hint="输入学习问题、作业疑问..." android:background="@drawable/bg_input_round" android:textColor="@color/text_main" android:textColorHint="@color/text_hint" android:paddingLeft="16dp" android:paddingRight="16dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnSend" android:layout_width="wrap_content" android:layout_height="48dp" android:text="发送" android:layout_marginStart="8dp" app:cornerRadius="14dp" />
+    </LinearLayout>
+</LinearLayout>

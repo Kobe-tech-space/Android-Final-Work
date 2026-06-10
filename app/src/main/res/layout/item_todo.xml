@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="18dp" app:cardElevation="2dp" app:cardBackgroundColor="@color/card">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:orientation="horizontal" android:gravity="center_vertical">
+        <CheckBox android:id="@+id/cbDone" android:layout_width="44dp" android:layout_height="44dp" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="8dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:id="@+id/tvTitle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="待办" android:textStyle="bold" android:textSize="17sp" android:textColor="@color/text_main" />
+                <TextView android:id="@+id/tvPriority" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_week_selected" android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingTop="3dp" android:paddingBottom="3dp" android:text="高" android:textColor="@android:color/white" android:textSize="11sp" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView android:id="@+id/tvSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="截止时间 · 内容" android:textColor="@color/text_hint" android:textSize="13sp" android:layout_marginTop="4dp" />
+            <TextView android:id="@+id/tvCategory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="作业" android:textColor="@color/primary" android:textStyle="bold" android:textSize="12sp" android:layout_marginTop="4dp" />
+        </LinearLayout>
+        <ImageButton android:id="@+id/btnDelete" android:layout_width="44dp" android:layout_height="44dp" android:background="?attr/selectableItemBackgroundBorderless" android:src="@android:drawable/ic_menu_delete" android:contentDescription="删除" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

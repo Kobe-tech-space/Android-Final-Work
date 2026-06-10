@@ -1,0 +1,21 @@
+<resources>
+    <!-- 暗色模式：深棕暖调 -->
+    <color name="primary">#F4A261</color>
+    <color name="primary_dark">#E76F51</color>
+    <color name="primary_light">#F4A261</color>
+    <color name="accent">#7BC67E</color>
+    <color name="black">#F5F0EB</color>
+    <color name="white">#1C1815</color>
+    <color name="bg">#15110E</color>
+    <color name="card">#221D19</color>
+    <color name="text_main">#F5F0EB</color>
+    <color name="text_sub">#B8AA9D</color>
+    <color name="text_hint">#8B7B6E</color>
+    <color name="border">#3D342D</color>
+    <color name="ai_bubble">#221D19</color>
+    <color name="user_bubble">#E76F51</color>
+    <color name="blue_btn">#1E2535</color>
+    <color name="green_btn">#1A2620</color>
+    <color name="purple_btn">#221E2A</color>
+    <color name="orange_btn">#2A2018</color>
+</resources>

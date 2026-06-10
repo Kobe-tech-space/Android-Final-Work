@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg" android:padding="18dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="150dp" android:background="@drawable/bg_campus_gradient" android:gravity="center_vertical" android:orientation="horizontal" android:padding="22dp">
+            <TextView android:layout_width="60dp" android:layout_height="60dp" android:background="@drawable/bg_avatar_user" android:gravity="center" android:text="👤" android:textColor="@android:color/white" android:textSize="28sp" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="16dp">
+                <TextView android:id="@+id/tvProfileName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="同学" android:textSize="24sp" android:textStyle="bold" android:textColor="@android:color/white" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CampusAI 用户" android:textColor="#FFF5E0" android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📊 学习统计" android:textSize="18sp" android:textStyle="bold" android:textColor="@color/text_main" android:layout_marginTop="18dp" android:layout_marginBottom="10dp" />
+        <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:columnCount="2">
+            <TextView android:id="@+id/tvCourseCount" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:background="@drawable/bg_soft_card" android:gravity="center" android:text="📚 课程\n0" android:textColor="@color/text_main" android:textSize="15sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tvTodoCount" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:background="@drawable/bg_soft_card" android:gravity="center" android:text="✅ 待办\n0" android:textColor="@color/text_main" android:textSize="15sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tvExamCount" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:background="@drawable/bg_soft_card" android:gravity="center" android:text="📝 考试\n0" android:textColor="@color/text_main" android:textSize="15sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tvAiCount" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:background="@drawable/bg_soft_card" android:gravity="center" android:text="🤖 会话\n0" android:textColor="@color/text_main" android:textSize="15sp" android:textStyle="bold" />
+        </GridLayout>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:background="@drawable/bg_soft_card" android:padding="18dp" android:text="📖 关于 CampusAI\n\n一个集课程表、待办事项、考试提醒和 AI 学习助手于一体的智慧校园助手。用心陪伴你的大学时光。" android:textColor="@color/text_hint" android:lineSpacingExtra="4dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnApiKey" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="10dp" android:text="🔑 设置 DeepSeek API Key" app:cornerRadius="14dp" />
+        <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switchDarkMode" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="14dp" android:text="🌙 暗色模式" android:textColor="@color/text_main" android:textSize="16sp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnExam" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="10dp" android:text="📝 考试提醒" app:cornerRadius="14dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnClearAi" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="10dp" android:text="🗑 清空 AI 历史" app:cornerRadius="14dp" app:backgroundTint="#EF4444" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnLogout" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="10dp" android:text="退出登录" app:cornerRadius="14dp" app:backgroundTint="@color/primary" />
+    </LinearLayout>
+</ScrollView>

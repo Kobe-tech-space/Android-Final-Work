@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg" android:padding="16dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+
+        <!-- 头部：暖橙渐变 -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/bg_campus_gradient" android:orientation="vertical" android:padding="24dp" android:layout_marginBottom="16dp">
+            <TextView android:id="@+id/tvWelcome" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="你好，同学" android:textSize="24sp" android:textStyle="bold" android:textColor="@android:color/white" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📅 今天也是元气满满的一天~" android:textColor="#FFF5E0" android:textSize="13sp" android:layout_marginTop="6dp" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="20dp">
+                <TextView android:id="@+id/tvTodayCourse" android:layout_width="0dp" android:layout_height="80dp" android:layout_weight="1" android:layout_marginEnd="8dp" android:background="@drawable/bg_metric_blue" android:gravity="center" android:text="今日课程\n0 门" android:textColor="@color/text_main" android:textSize="16sp" android:textStyle="bold" />
+                <TextView android:id="@+id/tvTodayTodo" android:layout_width="0dp" android:layout_height="80dp" android:layout_weight="1" android:layout_marginStart="8dp" android:background="@drawable/bg_metric_green" android:gravity="center" android:text="待完成事项\n0 项" android:textColor="@color/text_main" android:textSize="16sp" android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- AI 快捷助手 -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="✨ 快捷助手" android:textColor="@color/text_main" android:textSize="18sp" android:textStyle="bold" android:layout_marginBottom="10dp" />
+        <com.google.android.material.card.MaterialCardView android:id="@+id/cardAi" android:clickable="true" android:foreground="?attr/selectableItemBackground" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp" app:cardCornerRadius="20dp" app:cardElevation="2dp" app:cardBackgroundColor="@color/card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+                <TextView android:text="选择一个场景，直接开始对话" android:textStyle="bold" android:textSize="16sp" android:textColor="@color/text_main" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="2dp" />
+                <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:columnCount="2" android:layout_marginTop="10dp">
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnStudyPlan" android:layout_width="0dp" android:layout_height="54dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:text="📝 学习规划" app:cornerRadius="16dp" app:backgroundTint="@color/orange_btn" android:textColor="@color/primary_dark" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnHomework" android:layout_width="0dp" android:layout_height="54dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:text="💡 作业答疑" app:cornerRadius="16dp" app:backgroundTint="@color/blue_btn" android:textColor="#4A6FA5" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnKnowledge" android:layout_width="0dp" android:layout_height="54dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:text="📖 知识解释" app:cornerRadius="16dp" app:backgroundTint="@color/green_btn" android:textColor="#4A8C5A" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnResume" android:layout_width="0dp" android:layout_height="54dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:text="✨ 简历优化" app:cornerRadius="16dp" app:backgroundTint="@color/purple_btn" android:textColor="#6B4A8C" />
+                </GridLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 最近动态 -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📋 最近动态" android:textColor="@color/text_main" android:textSize="18sp" android:textStyle="bold" android:layout_marginBottom="10dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_soft_card" android:padding="4dp" android:layout_marginBottom="16dp">
+            <TextView android:id="@+id/tvRecentCourse" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📚  暂无课程" android:textColor="@color/text_main" android:textSize="14sp" android:padding="14dp" />
+            <TextView android:id="@+id/tvRecentTodo" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="✅  暂无待办" android:textColor="@color/text_main" android:textSize="14sp" android:padding="14dp" />
+            <TextView android:id="@+id/tvRecentExam" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📝  暂无考试" android:textColor="@color/text_main" android:textSize="14sp" android:padding="14dp" />
+            <TextView android:id="@+id/tvRecentAi" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🤖  暂无历史会话" android:textColor="@color/text_main" android:textSize="14sp" android:padding="14dp" />
+        </LinearLayout>
+
+        <!-- 校园工具 -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🔧 校园工具" android:textColor="@color/text_main" android:textSize="18sp" android:textStyle="bold" android:layout_marginBottom="10dp" />
+        <com.google.android.material.card.MaterialCardView android:id="@+id/cardExam" android:clickable="true" android:foreground="?attr/selectableItemBackground" android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="20dp" app:cardElevation="2dp" app:cardBackgroundColor="@color/card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="20dp" android:gravity="center_vertical">
+                <TextView android:layout_width="48dp" android:layout_height="48dp" android:gravity="center" android:background="@drawable/bg_metric_blue" android:text="📝" android:textSize="22sp" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="14dp">
+                    <TextView android:text="考试提醒" android:textStyle="bold" android:textSize="18sp" android:textColor="@color/text_main" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <TextView android:text="记录考试时间地点，提前做好复习准备" android:textColor="@color/text_hint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:textSize="13sp" />
+                    <TextView android:id="@+id/tvExamCountdown" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_week_selected" android:text="暂无考试" android:textColor="@android:color/white" android:textSize="12sp" android:textStyle="bold" android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingTop="3dp" android:paddingBottom="3dp" android:layout_marginTop="6dp" />
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="→" android:textColor="@color/primary" android:textSize="22sp" android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

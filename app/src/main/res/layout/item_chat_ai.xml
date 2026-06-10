@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="top" android:padding="8dp">
+    <TextView android:layout_width="32dp" android:layout_height="32dp" android:background="@drawable/bg_avatar_ai" android:gravity="center" android:text="AI" android:textColor="@android:color/white" android:textSize="12sp" android:textStyle="bold" />
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="8dp">
+        <TextView android:id="@+id/tvMessage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_ai_bubble" android:padding="13dp" android:text="AI消息" android:textColor="@color/text_main" android:maxWidth="280dp" />
+        <TextView android:id="@+id/tvTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="刚刚" android:textColor="@color/text_hint" android:textSize="11sp" android:layout_marginTop="3dp" />
+    </LinearLayout>
+    <ImageButton android:id="@+id/btnDeleteMessage" android:layout_width="36dp" android:layout_height="36dp" android:background="?attr/selectableItemBackgroundBorderless" android:src="@android:drawable/ic_menu_delete" android:contentDescription="删除消息" android:visibility="gone" />
+</LinearLayout>

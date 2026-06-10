@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="108dp" android:background="@drawable/bg_campus_gradient" android:orientation="vertical" android:padding="20dp" android:gravity="center_vertical" android:layout_marginBottom="14dp">
+            <TextView android:id="@+id/tvPageTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="列表" android:textColor="@android:color/white" android:textSize="24sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="轻松管理你的校园日程 📋" android:textColor="#FFF5E0" android:layout_marginTop="4dp" />
+        </LinearLayout>
+        <HorizontalScrollView android:id="@+id/weekFilterScroll" android:layout_width="match_parent" android:layout_height="wrap_content" android:scrollbars="none" android:visibility="gone" android:layout_marginBottom="10dp">
+            <LinearLayout android:id="@+id/weekFilterContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" />
+        </HorizontalScrollView>
+        <TextView android:id="@+id/tvEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:padding="28dp" android:text="暂无数据" android:textColor="@color/text_hint" android:visibility="gone" />
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerView" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton android:id="@+id/fabAdd" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="bottom|end" android:layout_margin="24dp" android:contentDescription="添加" app:srcCompat="@android:drawable/ic_input_add" app:backgroundTint="@color/primary" />
+</FrameLayout>
